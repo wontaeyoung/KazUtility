@@ -6,8 +6,9 @@ public extension UIViewController {
     return self
   }
   
-  func navigationTitle(with title: String) -> Self {
+  func navigationTitle(with title: String, displayMode: UINavigationItem.LargeTitleDisplayMode) -> Self {
     self.navigationItem.title = title
+    self.navigationItem.largeTitleDisplayMode = displayMode
     return self
   }
 }
