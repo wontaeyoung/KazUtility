@@ -19,6 +19,18 @@ public final class DateFormatManager {
   public func isDate(with interval: TimeInterval, by component: Calendar.Component, equalTo: Int) -> Bool {
     return calendar.component(component, from: Date(timeIntervalSince1970: interval)) == equalTo
   }
+  
+  public func isDate(with date: Date, by component: Calendar.Component, equalTo: Int) -> Bool {
+    return calendar.component(component, from: date) == equalTo
+  }
+  
+  public func isDate(with date: Date, by component: Calendar.Component..., equalTo: Int...) -> Bool {
+    let min = min(component.count, equalTo.count)
+    
+    return !(0..<min)
+      .map { calendar.component(component[$0], from: date) == equalTo[$0] }
+      .contains(false)
+  }
 }
 
 public extension DateFormatManager {
