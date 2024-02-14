@@ -39,7 +39,7 @@ public final class Bindable<T> {
   
   
   // MARK: - Initializer
-  init(value: T) {
+  public init(value: T) {
     self.value = value
   }
   
