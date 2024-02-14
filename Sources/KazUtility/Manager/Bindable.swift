@@ -1,7 +1,7 @@
 public final class Bindable<T> {
   
-  typealias Completion = (T) -> Void
-  typealias Action = (thread: Thread, completion: Completion)
+  public typealias Completion = (T) -> Void
+  public typealias Action = (thread: Thread, completion: Completion)
   
   public enum Thread {
     case main
@@ -45,11 +45,11 @@ public final class Bindable<T> {
   
   
   // MARK: - Method
-  func set(_ value: T) {
+  public func set(_ value: T) {
     self.value = value
   }
   
-  func subscribe(thread: Thread = .main, completion: @escaping Completion) {
+  public func subscribe(thread: Thread = .main, completion: @escaping Completion) {
     completion(value)
     self.action = (thread, completion)
   }
