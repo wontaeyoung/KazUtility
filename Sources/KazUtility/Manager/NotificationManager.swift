@@ -39,13 +39,13 @@ public final class NotificationManager {
   public func post(
     key: any NotificationNameKey,
     from sender: Any? = nil,
-    with notificationInfo: [any NotificationInfoKey]? = nil
+    with notificationInfo: [any NotificationInfo]? = nil
   ) {
     let notificationName = NSNotification.Name(key.name)
     var userInfo: [String: Any] = [:]
     
     notificationInfo?.forEach {
-      userInfo.updateValue($0.item.value, forKey: $0.item.key)
+      userInfo.updateValue($0.value, forKey: $0.key.name)
     }
     
     center.post(name: notificationName, object: sender, userInfo: userInfo)
@@ -62,9 +62,19 @@ public extension NotificationNameKey {
   }
 }
 
-public protocol NotificationInfoKey {
-  
-  var item: (key: String, value: Any) { get }
+public protocol NotificationInfoKey where Self: RawRepresentable, Self.RawValue == String {
+  var name: String { get }
+}
+
+public extension NotificationInfoKey {
+  var name: String {
+    return self.rawValue
+  }
+}
+
+public protocol NotificationInfo {
+  var key: any NotificationInfoKey { get }
+  var value: Any { get }
 }
 
 public enum NotificationError: AppError {
