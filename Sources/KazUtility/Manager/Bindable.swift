@@ -55,6 +55,44 @@ public final class Bindable<T> {
   }
 }
 
+public extension Bindable where T == Array<Any> {
+  func append(_ element: T.Element) {
+    self.value.append(element)
+  }
+  
+  func remove(at index: Int) {
+    self.value.remove(at: index)
+  }
+  
+  func update(_ element: T.Element, at index: Int) {
+    guard self.value.indices ~= index else { return }
+    
+    self.value[index] = element
+  }
+  
+  func element(at index: Int) -> T.Element? {
+    guard self.value.indices ~= index else { return nil }
+    
+    return self.value[index]
+  }
+}
+
+public extension Bindable where T == Dictionary<String, Any>{
+  func update(key: T.Key, value: T.Value) {
+    self.value.updateValue(value, forKey: key)
+  }
+  
+  func remove(key: T.Key) {
+    self.value.removeValue(forKey: key)
+  }
+  
+  func get(key: T.Key) -> T.Value? {
+    guard let value = self.value[key] else { return nil }
+    
+    return value
+  }
+}
+
 extension Bindable: ExpressibleByIntegerLiteral where T == Int {
   public convenience init(integerLiteral value: Int) {
     self.init(value: value)
