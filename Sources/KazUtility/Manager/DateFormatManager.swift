@@ -35,6 +35,13 @@ public extension DateFormatManager {
     return formatter.string(from: date)
   }
   
+  func toString(with date: Date, formatString: String) -> String {
+    formatter.dateFormat = formatString
+    formatter.timeZone = timezone
+    
+    return formatter.string(from: date)
+  }
+  
   func unixTimestampToString(with interval: TimeInterval, format: Format) -> String {
     formatter.dateFormat = format.format
     formatter.timeZone = .current
