@@ -81,11 +81,15 @@ public protocol NotificationInfo {
 
 public enum NotificationError: AppError {
   case tokenNotFound(identifier: ObjectIdentifier)
+  case infoNotFound(key: any NotificationInfoKey)
   
   public var logDescription: String {
     switch self {
       case let .tokenNotFound(identifier):
         return "식별자에 해당하는 옵저버 토큰을 찾을 수 없습니다.\n식별자 : \(identifier.debugDescription)"
+        
+      case let .infoNotFound(key):
+        return "키와 매칭되는 값을 찾을 수 없습니다.\n키 : \(key.name)"
     }
   }
   
