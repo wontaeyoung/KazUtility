@@ -55,7 +55,7 @@ public final class Bindable<T> {
   }
 }
 
-public extension Bindable where T == Array<Any> {
+public extension Bindable where T == Array<Entity> {
   func append(_ element: T.Element) {
     self.value.append(element)
   }
@@ -77,7 +77,7 @@ public extension Bindable where T == Array<Any> {
   }
 }
 
-public extension Bindable where T == Dictionary<String, Any>{
+public extension Bindable where T == Dictionary<String, Entity> {
   func update(key: T.Key, value: T.Value) {
     self.value.updateValue(value, forKey: key)
   }
