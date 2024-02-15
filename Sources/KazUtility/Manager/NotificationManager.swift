@@ -73,7 +73,9 @@ public extension NotificationInfoKey {
 }
 
 public protocol NotificationInfo {
-  var key: any NotificationInfoKey { get }
+  associatedtype Key: NotificationInfoKey
+  
+  var key: Key { get }
   var value: Any { get }
 }
 
