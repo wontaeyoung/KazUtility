@@ -35,7 +35,8 @@ open class BaseViewController: UIViewController {
     setAttribute()
     setConstraint()
     bind()
-    makeViewFinishableEditing()
+    
+    if finishableKeyboardEditing { makeViewFinishableEditing() }
   }
   
   
@@ -47,6 +48,6 @@ open class BaseViewController: UIViewController {
   }
   
   @objc final private func viewDidTap(_ sender: UIGestureRecognizer) {
-    if finishableKeyboardEditing { view.endEditing(true) }
+    view.endEditing(true)
   }
 }
