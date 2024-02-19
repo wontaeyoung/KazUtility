@@ -26,7 +26,7 @@ public protocol Coordinator: AnyObject {
   func popToRoot(animation: Bool)
   func dismiss(animation: Bool)
   func emptyOut()
-  func handle(error: AppError)
+  func showErrorAlert(error: AppError)
   func showAlert(
     title: String,
     message: String,
@@ -70,8 +70,17 @@ public extension Coordinator {
     self.childCoordinators.removeAll()
   }
   
-  func handle(error: AppError) {
-    self.showErrorAlert(error: error)
+  func showErrorAlert(error: AppError) {
+    let alertController = UIAlertController(
+      title: error.alertDescription,
+      message: nil,
+      preferredStyle: .alert
+    )
+      .setAction(title: "확인", style: .default)
+    
+    GCD.main {
+      self.present(alertController)
+    }
   }
   
   func showAlert(
@@ -90,19 +99,6 @@ public extension Coordinator {
     }
     
     self.present(alertController)
-  }
-  
-  private func showErrorAlert(error: AppError) {
-    let alertController = UIAlertController(
-      title: error.alertDescription,
-      message: nil,
-      preferredStyle: .alert
-    )
-      .setAction(title: "확인", style: .default)
-    
-    GCD.main {
-      self.present(alertController)
-    }
   }
   
   func addChild(_ childCoordinator: Coordinator) {
