@@ -1,25 +1,25 @@
 import Foundation
 
-enum PhotoFileRouter {
+public enum PhotoFileRouter {
   
-  enum FileExtension: String {
+  public enum FileExtension: String {
     
     case jpg
     case png
     
-    var name: String {
+    public var name: String {
       return ".\(self.rawValue)"
     }
   }
   
-  enum CompressionLevel {
+  public enum CompressionLevel {
     
     case high
     case middle
     case low
     case raw
     
-    var percent: CGFloat {
+    public var percent: CGFloat {
       switch self {
         case .high:
           return 0.25
@@ -36,19 +36,19 @@ enum PhotoFileRouter {
   case write(fileName: String, fileExtension: FileExtension, level: CompressionLevel)
   case read(fileName: String, fileExtension: FileExtension)
   
-  var baseDirectory: URL {
+  public var baseDirectory: URL {
     return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
   }
   
-  var path: String {
+  public var path: String {
     return "Photo"
   }
   
-  var directoryURL: URL {
+  public var directoryURL: URL {
     return baseDirectory.appendingPathComponent(path)
   }
   
-  var fileURL: URL {
+  public var fileURL: URL {
     switch self {
       case .write(let fileName, let fileExtension, _):
         return directoryURL.appendingPathComponent(fileName + fileExtension.name)
@@ -58,23 +58,23 @@ enum PhotoFileRouter {
     }
   }
   
-  var directoryPath: String {
+  public var directoryPath: String {
     return directoryURL.path
   }
   
-  var filePath: String {
+  public var filePath: String {
     return fileURL.path
   }
   
-  var directoryExist: Bool {
+  public var directoryExist: Bool {
     return FileManager.default.fileExists(atPath: directoryPath)
   }
   
-  var fileExist: Bool {
+  public var fileExist: Bool {
     return FileManager.default.fileExists(atPath: filePath)
   }
   
-  var compressionPercent: CGFloat {
+  public var compressionPercent: CGFloat {
     switch self {
       case .write(_, _, let level):
         return level.percent

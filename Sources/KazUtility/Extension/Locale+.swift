@@ -1,6 +1,6 @@
 import Foundation
 
-extension Locale {
+public extension Locale {
   enum Identifier: String {
     case kr = "ko_KR"
     case us = "en_US"
