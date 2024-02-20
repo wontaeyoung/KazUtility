@@ -53,6 +53,12 @@ public final class Bindable<T> {
     completion(value)
     self.action = (thread, completion)
   }
+  
+  public func subscribed(thread: Thread = .main, completion: @escaping Completion) -> Self {
+    self.subscribe(thread: thread, completion: completion)
+    
+    return self
+  }
 }
 
 public extension Bindable where T == Array<Entity> {
