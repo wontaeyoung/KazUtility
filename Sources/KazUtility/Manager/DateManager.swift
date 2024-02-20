@@ -1,17 +1,25 @@
 import Foundation
 
-public final class DateFormatManager {
+public final class DateManager {
   
-  public static let shared = DateFormatManager()
+  public static let shared = DateManager()
   private init() { }
   
   private let locale = Locale(identifier: "ko_KR")
   private let timezone = TimeZone(identifier: "ko_KR")
-  private lazy var formatter = DateFormatter().configured { $0.locale = locale }
-  private lazy var calendar = Calendar.current.configured { $0.locale = locale }
+  
+  private lazy var formatter = DateFormatter().configured {
+    $0.locale = locale
+    $0.timeZone = timezone ?? .autoupdatingCurrent
+  }
+  
+  private lazy var calendar = Calendar.current.configured {
+    $0.locale = locale
+    $0.timeZone = timezone ?? .autoupdatingCurrent
+  }
 }
 
-public extension DateFormatManager {
+public extension DateManager {
   
   enum Format: String {
     case HHmm = "HH:mm"
@@ -25,8 +33,8 @@ public extension DateFormatManager {
   }
 }
 
-// MARK: - To String
-public extension DateFormatManager {
+// MARK: - String Format
+public extension DateManager {
   
   func toString(with date: Date, format: Format) -> String {
     formatter.dateFormat = format.format
@@ -51,7 +59,18 @@ public extension DateFormatManager {
 }
 
 // MARK: - Compare Date
-public extension DateFormatManager {
+public extension DateManager {
+  
+  func getDateBetween(when date: Date, by day: Int = 1) -> (start: Date, end: Date) {
+    let start = calendar.startOfDay(for: date)
+    let end = calendar.date(byAdding: .day, value: day, to: start) ?? Date()
+    
+    return (start, end)
+  }
+}
+
+// MARK: - Compare Date
+public extension DateManager {
   
   func isDate(with interval: TimeInterval, by component: Calendar.Component, equalTo: Int) -> Bool {
     return calendar.component(component, from: Date(timeIntervalSince1970: interval)) == equalTo
