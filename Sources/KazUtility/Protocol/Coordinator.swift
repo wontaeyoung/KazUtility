@@ -5,7 +5,6 @@ public protocol CoordinatorDelegate: AnyObject {
   func coordinatorDidEnd(_ childCoordinator: Coordinator)
 }
 
-@MainActor
 public protocol Coordinator: AnyObject {
   
   // MARK: - Property
@@ -46,24 +45,34 @@ public extension Coordinator {
   }
   
   func push(_ viewController: UIViewController, animation: Bool = true) {
-    self.navigationController.pushViewController(viewController, animated: animation)
+    GCD.main {
+      self.navigationController.pushViewController(viewController, animated: animation)
+    }
   }
   
   func pop(animation: Bool = true) {
-    self.navigationController.popViewController(animated: animation)
+    GCD.main {
+      self.navigationController.popViewController(animated: animation)
+    }
   }
   
   func popToRoot(animation: Bool = true) {
-    self.navigationController.popToRootViewController(animated: animation)
+    GCD.main {
+      self.navigationController.popToRootViewController(animated: animation)
+    }
   }
   
   func present(_ viewController: UIViewController, style: UIModalPresentationStyle = .automatic, animation: Bool = true) {
     viewController.modalPresentationStyle = style
-    self.navigationController.present(viewController, animated: animation)
+    GCD.main {
+      self.navigationController.present(viewController, animated: animation)
+    }
   }
   
   func dismiss(animation: Bool = true) {
-    self.navigationController.dismiss(animated: animation)
+    GCD.main {
+      self.navigationController.dismiss(animated: animation)
+    }
   }
   
   func emptyOut() {
@@ -98,7 +107,9 @@ public extension Coordinator {
       alertController = alertController.setCancelAction()
     }
     
-    self.present(alertController)
+    GCD.main {
+      self.present(alertController)
+    }
   }
   
   func addChild(_ childCoordinator: Coordinator) {
