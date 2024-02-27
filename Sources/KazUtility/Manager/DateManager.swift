@@ -8,9 +8,14 @@ public final class DateManager {
   private let locale = Locale(identifier: "ko_KR")
   private let timezone = TimeZone(identifier: "ko_KR")
   
-  private lazy var formatter = DateFormatter().configured {
+  private lazy var dateFormatter = DateFormatter().configured {
     $0.locale = locale
     $0.timeZone = timezone ?? .autoupdatingCurrent
+  }
+  
+  private lazy var isoDateFormaater = ISO8601DateFormatter().configured {
+    $0.timeZone = timezone ?? .autoupdatingCurrent
+    $0.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
   }
   
   private lazy var calendar = Calendar.current.configured {
@@ -36,25 +41,30 @@ public extension DateManager {
 // MARK: - String Format
 public extension DateManager {
   
-  func toString(with date: Date, format: Format) -> String {
-    formatter.dateFormat = format.format
-    formatter.timeZone = timezone
+  func isoStringtoDate(with string: String) -> Date {
+    guard let date = isoDateFormaater.date(from: string) else {
+      return Date()
+    }
     
-    return formatter.string(from: date)
+    return date
+  }
+  
+  func toString(with date: Date, format: Format) -> String {
+    dateFormatter.dateFormat = format.format
+    
+    return dateFormatter.string(from: date)
   }
   
   func toString(with date: Date, formatString: String) -> String {
-    formatter.dateFormat = formatString
-    formatter.timeZone = timezone
+    dateFormatter.dateFormat = formatString
     
-    return formatter.string(from: date)
+    return dateFormatter.string(from: date)
   }
   
   func unixTimestampToString(with interval: TimeInterval, format: Format) -> String {
-    formatter.dateFormat = format.format
-    formatter.timeZone = .current
+    dateFormatter.dateFormat = format.format
     
-    return formatter.string(from: Date(timeIntervalSince1970: interval))
+    return dateFormatter.string(from: Date(timeIntervalSince1970: interval))
   }
 }
 
