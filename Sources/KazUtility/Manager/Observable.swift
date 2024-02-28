@@ -39,7 +39,7 @@ public final class Observable<T> {
   
   
   // MARK: - Initializer
-  public init(value: T) {
+  public init(_ value: T) {
     self.value = value
   }
   
@@ -100,36 +100,42 @@ public extension Observable where T == Dictionary<String, Entity> {
 
 extension Observable: ExpressibleByIntegerLiteral where T == Int {
   public convenience init(integerLiteral value: Int) {
-    self.init(value: value)
+    self.init(value)
   }
 }
 
 extension Observable: ExpressibleByFloatLiteral where T == Double {
   public convenience init(floatLiteral value: Double) {
-    self.init(value: value)
+    self.init(value)
   }
 }
 
 extension Observable: ExpressibleByBooleanLiteral where T == Bool {
   public convenience init(booleanLiteral value: Bool) {
-    self.init(value: value)
+    self.init(value)
   }
 }
 
 extension Observable: ExpressibleByStringLiteral where T == String {
   public convenience init(stringLiteral value: String) {
-    self.init(value: value)
+    self.init(value)
   }
 }
 
 extension Observable: ExpressibleByUnicodeScalarLiteral where T == String {
   public convenience init(unicodeScalarLiteral value: String) {
-    self.init(value: value)
+    self.init(value)
   }
 }
 
 extension Observable: ExpressibleByExtendedGraphemeClusterLiteral where T == String {
   public convenience init(extendedGraphemeClusterLiteral value: String) {
-    self.init(value: value)
+    self.init(value)
+  }
+}
+
+extension Observable: ExpressibleByNilLiteral where T == Optional<Any> {
+  public convenience init(nilLiteral: ()) {
+    self.init(nil)
   }
 }
