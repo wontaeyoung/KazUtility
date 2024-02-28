@@ -25,7 +25,7 @@ public protocol Coordinator: AnyObject {
   func popToRoot(animation: Bool)
   func dismiss(animation: Bool)
   func emptyOut()
-  func showErrorAlert(error: AppError)
+  func showErrorAlert(error: Error)
   func showAlert(
     title: String,
     message: String,
