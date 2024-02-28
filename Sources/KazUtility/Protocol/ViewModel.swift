@@ -6,5 +6,5 @@ public protocol ViewModel: AnyObject {
   
   var coordinator: CoordinatorType? { get set }
   
-  func transform(input: Input) -> Output
+  func transform()
 }
