@@ -1,5 +1,24 @@
 import UIKit
 
+public enum CoordinatorError: AppError {
+  
+  case unknownError(error: Error?)
+  
+  public var logDescription: String {
+    switch self {
+      case .unknownError(let error):
+        return "알 수 없는 오류 발생 \(error?.localizedDescription ?? .defaultValue)"
+    }
+  }
+  
+  public var alertDescription: String {
+    switch self {
+      case .unknownError:
+        return "알 수 없는 오류가 발생했어요. 문제가 지속되면 개발자에게 알려주세요."
+    }
+  }
+}
+
 public protocol CoordinatorDelegate: AnyObject {
   
   func coordinatorDidEnd(_ childCoordinator: Coordinator)
@@ -79,7 +98,15 @@ public extension Coordinator {
     self.childCoordinators.removeAll()
   }
   
-  func showErrorAlert(error: AppError) {
+  func showErrorAlert(error: Error) {
+    guard let error = error as? AppError else {
+      let coordinatorError = CoordinatorError.unknownError(error: error)
+      LogManager.shared.log(with: coordinatorError, to: .local)
+      showErrorAlert(error: coordinatorError)
+      
+      return
+    }
+    
     let alertController = UIAlertController(
       title: error.alertDescription,
       message: nil,
