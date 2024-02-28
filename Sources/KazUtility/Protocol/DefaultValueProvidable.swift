@@ -31,3 +31,9 @@ extension Int: DefaultValueProvidable {
     return 0
   }
 }
+
+extension Array: DefaultValueProvidable where Array.Element: DefaultValueProvidable {
+  public static var defaultValue: [Array.Element] {
+    return []
+  }
+}
