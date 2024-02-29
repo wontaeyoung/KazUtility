@@ -2,9 +2,12 @@ import UIKit
 
 open class BaseViewController: UIViewController {
   
-  // MARK: - Property
-  final public var finishableKeyboardEditing: Bool
+  open class var identifier: String {
+    return self.description()
+  }
   
+  // MARK: - Property
+  public final var finishableKeyboardEditing: Bool
   
   // MARK: - Initializer
   public init(finishableKeyboardEditing: Bool = false) {
@@ -18,6 +21,9 @@ open class BaseViewController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    LogManager.shared.log(with: Self.identifier, to: .local, level: .debug)
+  }
   
   // MARK: - Life Cycle
   open func setHierarchy() { }
@@ -41,13 +47,13 @@ open class BaseViewController: UIViewController {
   
   
   // MARK: - Method
-  final private func makeViewFinishableEditing() {
+  private final func makeViewFinishableEditing() {
     let gesture = UITapGestureRecognizer(target: self, action: #selector(viewDidTap))
     gesture.cancelsTouchesInView = false
     view.addGestureRecognizer(gesture)
   }
   
-  @objc final private func viewDidTap(_ sender: UIGestureRecognizer) {
+  @objc private final func viewDidTap(_ sender: UIGestureRecognizer) {
     view.endEditing(true)
   }
 }

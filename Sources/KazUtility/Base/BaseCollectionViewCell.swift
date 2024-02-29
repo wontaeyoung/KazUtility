@@ -2,7 +2,7 @@ import UIKit
 
 open class BaseCollectionViewCell: UICollectionViewCell {
   
-  public class var identifier: String {
+  open class var identifier: String {
     return self.description()
   }
   
@@ -20,6 +20,10 @@ open class BaseCollectionViewCell: UICollectionViewCell {
     setHierarchy()
     setAttribute()
     setConstraint()
+  }
+  
+  deinit {
+    LogManager.shared.log(with: Self.identifier, to: .local, level: .debug)
   }
   
   @available(*, unavailable)

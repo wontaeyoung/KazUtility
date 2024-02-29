@@ -2,7 +2,7 @@ import UIKit
 
 open class BaseTableViewCell: UITableViewCell {
   
-  public class var identifier: String {
+  open class var identifier: String {
     return self.description()
   }
   
@@ -20,6 +20,10 @@ open class BaseTableViewCell: UITableViewCell {
     setHierarchy()
     setAttribute()
     setConstraint()
+  }
+  
+  deinit {
+    LogManager.shared.log(with: Self.identifier, to: .local, level: .debug)
   }
   
   @available(*, unavailable)
