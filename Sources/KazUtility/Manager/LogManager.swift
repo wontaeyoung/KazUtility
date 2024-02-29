@@ -26,11 +26,22 @@ public final class LogManager {
   
   public func log(with error: Error, to logTarget: LogCategory, level: OSLogType = .error) {
     guard let error = error as? AppError else {
-      return log(with: error, to: .local)
+      let unknownError = CommonError.unknownError(error: error)
+      return log(with: unknownError, to: .local)
     }
     
     let message = error.logDescription
         
+    switch logTarget {
+      case .network:
+        networkLogger.log(level: level, "\(message)")
+        
+      case .local:
+        localLogger.log(level: level, "\(message)")
+    }
+  }
+  
+  public func log(with message: String, to logTarget: LogCategory, level: OSLogType) {
     switch logTarget {
       case .network:
         networkLogger.log(level: level, "\(message)")
