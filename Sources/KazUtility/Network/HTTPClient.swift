@@ -164,7 +164,8 @@ public final class HTTPClient {
   public func callRequest<T: DTO>(
     responseType: T.Type,
     router: any Router,
-    successStatusRange: ClosedRange<Int> = 200...299
+    successStatusRange: ClosedRange<Int> = 200...299,
+    additionalError: [Int: HTTPError] = [:]
   ) async throws -> T {
     
     guard let request = try? router.asURLRequest() else {
@@ -177,6 +178,12 @@ public final class HTTPClient {
     
     guard let response = response as? HTTPURLResponse else {
       throw HTTPError.invalidResponse
+    }
+    
+    for (statusCode, error) in additionalError {
+      guard response.statusCode != statusCode else {
+        throw error
+      }
     }
     
     guard successStatusRange ~= response.statusCode else {
