@@ -79,7 +79,7 @@ public extension Coordinator {
     self.childCoordinators.removeAll()
   }
   
-  func showErrorAlert(error: Error) {
+  func showErrorAlert(error: Error, completion: (() -> Void)? = nil) {
     guard let error = error as? AppError else {
       let unknownError = CommonError.unknownError(error: error)
       LogManager.shared.log(with: unknownError, to: .local)
@@ -93,7 +93,7 @@ public extension Coordinator {
       message: nil,
       preferredStyle: .alert
     )
-      .setAction(title: "확인", style: .default)
+      .setAction(title: "확인", style: .default, completion: completion)
     
     GCD.main {
       self.present(alertController)
