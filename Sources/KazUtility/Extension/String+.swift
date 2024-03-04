@@ -30,4 +30,11 @@ public extension String {
     
     return attributedString
   }
+  
+  var dollorToRounded: String {
+    guard self.prefix(1) == "$" else { return self }
+    guard let currency = Double(self.dropFirst()) else { return self}
+    
+    return "$" + currency.toRoundedDollar
+  }
 }
