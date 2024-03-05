@@ -86,7 +86,7 @@ public enum PhotoFileRouter {
 
 public final class FileSystemManager {
   
-  static let shared = FileSystemManager()
+  public static let shared = FileSystemManager()
   private init() { }
   
   public func loadImageData(router: PhotoFileRouter) throws -> Data {
