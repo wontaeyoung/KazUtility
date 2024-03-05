@@ -5,6 +5,7 @@ enum FileManageError: AppError {
   case imageToDataFailed
   case writeDataFailed(error: Error)
   case createDirectoryFailed(error: Error)
+  case fileNotExist(path: String)
   
   var logDescription: String {
     switch self {
@@ -16,6 +17,9 @@ enum FileManageError: AppError {
         
       case .createDirectoryFailed(let error):
         return "파일 시스템 : 디렉토리 생성 실패 \(error.localizedDescription)"
+        
+      case .fileNotExist(let path):
+        return "파일 시스템 : 파일이 존재하지 않음, 경로 : \(path)"
     }
   }
   
@@ -29,6 +33,9 @@ enum FileManageError: AppError {
         
       case .createDirectoryFailed:
         return "폴더를 만들지 못했어요. \(Self.contactDeveloperMessage)"
+        
+      case .fileNotExist:
+        return "파일을 찾지 못했어요."
     }
   }
 }
