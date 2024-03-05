@@ -28,9 +28,12 @@ public extension DateManager {
   
   enum Format: String {
     case HHmm = "HH:mm"
-    case HHhour = "HH시"
+    case HHmmss = "HH:mm:ss"
+    case HHmmssKR = "HH시 mm분 ss초"
+    case HHKr = "HH시"
     case EEEE = "EEEE"
     case yyyyMMdd = "yyyyMMdd"
+    case yyyyMMddKR = "yyyy년 MM월 dd일"
     
     var format: String {
       return self.rawValue
@@ -59,6 +62,34 @@ public extension DateManager {
     dateFormatter.dateFormat = formatString
     
     return dateFormatter.string(from: date)
+  }
+  
+  func toString(with interval: TimeInterval, format: Format) -> String {
+    dateFormatter.dateFormat = format.format
+    
+    return dateFormatter.string(from: Date(timeIntervalSince1970: interval))
+  }
+  
+  func toString(with interval: TimeInterval, formatString: String) -> String {
+    dateFormatter.dateFormat = formatString
+    
+    return dateFormatter.string(from: Date(timeIntervalSince1970: interval))
+  }
+  
+  func toStringFrom(_ date: Date, format: Format) -> String {
+    let elapsedTime = Date().timeIntervalSince(date)
+    let intervalToDate = Date(timeIntervalSince1970: elapsedTime)
+    
+    dateFormatter.dateFormat = format.format
+    return dateFormatter.string(from: intervalToDate)
+  }
+  
+  func toStringFrom(_ date: Date, formatString: String) -> String {
+    let elapsedTime = Date().timeIntervalSince(date)
+    let intervalToDate = Date(timeIntervalSince1970: elapsedTime)
+    
+    dateFormatter.dateFormat = formatString
+    return dateFormatter.string(from: intervalToDate)
   }
   
   func unixTimestampToString(with interval: TimeInterval, format: Format) -> String {
