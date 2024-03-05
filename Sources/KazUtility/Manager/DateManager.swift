@@ -13,6 +13,11 @@ public final class DateManager {
     $0.timeZone = timezone ?? .autoupdatingCurrent
   }
   
+  private lazy var timerFormatter = DateFormatter().configured {
+    $0.locale = locale
+    $0.timeZone = TimeZone(secondsFromGMT: .zero)
+  }
+  
   private lazy var isoDateFormaater = ISO8601DateFormatter().configured {
     $0.timeZone = timezone ?? .autoupdatingCurrent
     $0.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
@@ -76,20 +81,20 @@ public extension DateManager {
     return dateFormatter.string(from: Date(timeIntervalSince1970: interval))
   }
   
-  func toStringFrom(_ date: Date, format: Format) -> String {
+  func elapsedTime(_ date: Date, format: Format) -> String {
     let elapsedTime = Date().timeIntervalSince(date)
     let intervalToDate = Date(timeIntervalSince1970: elapsedTime)
     
-    dateFormatter.dateFormat = format.format
-    return dateFormatter.string(from: intervalToDate)
+    timerFormatter.dateFormat = format.format
+    return timerFormatter.string(from: intervalToDate)
   }
   
-  func toStringFrom(_ date: Date, formatString: String) -> String {
+  func elapsedTime(_ date: Date, formatString: String) -> String {
     let elapsedTime = Date().timeIntervalSince(date)
     let intervalToDate = Date(timeIntervalSince1970: elapsedTime)
     
-    dateFormatter.dateFormat = formatString
-    return dateFormatter.string(from: intervalToDate)
+    timerFormatter.dateFormat = formatString
+    return timerFormatter.string(from: intervalToDate)
   }
   
   func unixTimestampToString(with interval: TimeInterval, format: Format) -> String {
