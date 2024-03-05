@@ -89,10 +89,16 @@ public final class FileSystemManager {
   static let shared = FileSystemManager()
   private init() { }
   
-  public func loadImage(router: PhotoFileRouter) -> Data? {
-    guard router.fileExist else { return nil }
+  public func loadImageData(router: PhotoFileRouter) throws -> Data {
+    guard router.fileExist else {
+      throw FileManageError.fileNotExist(path: router.filePath)
+    }
     
-    return FileManager.default.contents(atPath: router.filePath)
+    guard let data = FileManager.default.contents(atPath: router.filePath) else {
+      throw FileManageError.fileNotExist(path: router.filePath)
+    }
+    
+    return data
   }
   
   public func writeImage(with data: Data, router: PhotoFileRouter) throws {
@@ -102,5 +108,11 @@ public final class FileSystemManager {
     }
     
     try data.write(to: router.fileURL)
+  }
+  
+  public func remove(router: PhotoFileRouter) throws {
+    guard router.fileExist else { return }
+    
+    try FileManager.default.removeItem(at: router.fileURL)
   }
 }
