@@ -83,3 +83,24 @@ public enum PhotoFileRouter {
     }
   }
 }
+
+public final class FileSystemManager {
+  
+  static let shared = FileSystemManager()
+  private init() { }
+  
+  public func loadImage(router: PhotoFileRouter) -> Data? {
+    guard router.fileExist else { return nil }
+    
+    return FileManager.default.contents(atPath: router.filePath)
+  }
+  
+  public func writeImage(with data: Data, router: PhotoFileRouter) throws {
+    /// 파일 경로에 디렉토리가 존재하지 않으면 생성
+    if !router.directoryExist {
+      try FileManager.default.createDirectory(at: router.directoryURL, withIntermediateDirectories: false)
+    }
+    
+    try data.write(to: router.fileURL)
+  }
+}
