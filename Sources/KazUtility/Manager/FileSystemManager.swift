@@ -35,6 +35,7 @@ public enum PhotoFileRouter {
   
   case write(fileName: String, fileExtension: FileExtension, level: CompressionLevel)
   case read(fileName: String, fileExtension: FileExtension)
+  case delete(fileName: String, FileExtension: FileExtension)
   
   public var baseDirectory: URL {
     return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -54,6 +55,9 @@ public enum PhotoFileRouter {
         return directoryURL.appendingPathComponent(fileName + fileExtension.name)
         
       case .read(let fileName, let fileExtension):
+        return directoryURL.appendingPathComponent(fileName + fileExtension.name)
+        
+      case .delete(let fileName, let fileExtension):
         return directoryURL.appendingPathComponent(fileName + fileExtension.name)
     }
   }
@@ -78,7 +82,7 @@ public enum PhotoFileRouter {
     switch self {
       case .write(_, _, let level):
         return level.percent
-      case .read:
+      case .read, .delete:
         return CompressionLevel.raw.percent
     }
   }
