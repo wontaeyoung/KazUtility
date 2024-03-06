@@ -124,7 +124,11 @@ public final class PhotoFileManager {
     return data
   }
   
-  public func writeImage(with data: Data, router: PhotoFileRouter) throws {
+  public func writeImage(router: PhotoFileRouter) throws {
+    guard let data = router.imageData else {
+      throw FileManageError.imageToDataFailed
+    }
+    
     if !router.directoryExist {
       try FileManager.default.createDirectory(at: router.directoryURL, withIntermediateDirectories: false)
     }
