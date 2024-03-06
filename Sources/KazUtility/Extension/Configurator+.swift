@@ -43,3 +43,7 @@ extension HTTPParameter: Configurator { }
 extension HTTPParameters: Configurator { }
 
 extension Calendar: Configurator { }
+
+extension UIListContentConfiguration: Configurator { }
+extension UICollectionLayoutListConfiguration: Configurator { }
+extension UIBackgroundConfiguration: Configurator { }
