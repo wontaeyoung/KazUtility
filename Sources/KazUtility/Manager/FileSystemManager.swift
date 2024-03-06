@@ -48,7 +48,7 @@ public struct PhotoFileRouter {
   public let fileExtension: FileExtension
   public let fileMethod: FileMethod
   
-  init(directory: String, fileIndex: Int, fileExtension: FileExtension, fileMethod: FileMethod) {
+  public init(directory: String, fileIndex: Int, fileExtension: FileExtension, fileMethod: FileMethod) {
     
     switch fileMethod {
       case .write(let image, let level):
