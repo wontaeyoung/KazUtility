@@ -1,4 +1,4 @@
-public final class Observable<T> {
+public final class Bindable<T> {
   
   public typealias Completion = (T) -> Void
   public typealias Action = (thread: Thread, completion: Completion)
@@ -60,7 +60,7 @@ public final class Observable<T> {
   }
 }
 
-public extension Observable where T == Array<Entity> {
+public extension Bindable where T == Array<Entity> {
   func append(_ element: T.Element) {
     self.value.append(element)
   }
@@ -82,7 +82,7 @@ public extension Observable where T == Array<Entity> {
   }
 }
 
-public extension Observable where T == Dictionary<String, Entity> {
+public extension Bindable where T == Dictionary<String, Entity> {
   func update(key: T.Key, value: T.Value) {
     self.value.updateValue(value, forKey: key)
   }
@@ -98,43 +98,43 @@ public extension Observable where T == Dictionary<String, Entity> {
   }
 }
 
-extension Observable: ExpressibleByIntegerLiteral where T == Int {
+extension Bindable: ExpressibleByIntegerLiteral where T == Int {
   public convenience init(integerLiteral value: Int) {
     self.init(value)
   }
 }
 
-extension Observable: ExpressibleByFloatLiteral where T == Double {
+extension Bindable: ExpressibleByFloatLiteral where T == Double {
   public convenience init(floatLiteral value: Double) {
     self.init(value)
   }
 }
 
-extension Observable: ExpressibleByBooleanLiteral where T == Bool {
+extension Bindable: ExpressibleByBooleanLiteral where T == Bool {
   public convenience init(booleanLiteral value: Bool) {
     self.init(value)
   }
 }
 
-extension Observable: ExpressibleByStringLiteral where T == String {
+extension Bindable: ExpressibleByStringLiteral where T == String {
   public convenience init(stringLiteral value: String) {
     self.init(value)
   }
 }
 
-extension Observable: ExpressibleByUnicodeScalarLiteral where T == String {
+extension Bindable: ExpressibleByUnicodeScalarLiteral where T == String {
   public convenience init(unicodeScalarLiteral value: String) {
     self.init(value)
   }
 }
 
-extension Observable: ExpressibleByExtendedGraphemeClusterLiteral where T == String {
+extension Bindable: ExpressibleByExtendedGraphemeClusterLiteral where T == String {
   public convenience init(extendedGraphemeClusterLiteral value: String) {
     self.init(value)
   }
 }
 
-extension Observable: ExpressibleByNilLiteral where T == Optional<Any> {
+extension Bindable: ExpressibleByNilLiteral where T == Optional<Any> {
   public convenience init(nilLiteral: ()) {
     self.init(nil)
   }
