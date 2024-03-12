@@ -97,6 +97,13 @@ public extension DateManager {
     return timerFormatter.string(from: intervalToDate)
   }
   
+  func elapsedTime(_ interval: TimeInterval, format: Format) -> String {
+    let intervalToDate = Date(timeIntervalSince1970: interval)
+    
+    timerFormatter.dateFormat = format.format
+    return timerFormatter.string(from: intervalToDate)
+  }
+  
   func unixTimestampToString(with interval: TimeInterval, format: Format) -> String {
     dateFormatter.dateFormat = format.format
     
